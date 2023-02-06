@@ -1,7 +1,6 @@
 package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
@@ -9,7 +8,16 @@ import hello.core.member.MemoryMemberRepository;
 public class OrderServiceImpl implements OrderService {
 
     private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+
+    /* 기존 Client 소스를 변경 하여야 한다 */
+//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+//    TODO: 03. 관심사의 분리 내용 진행
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // 이 부분이 문제임, DIP 원칙 위배
+
+    // 의존관계 역전 법칙 적용, 의존성 주입을 안해주고 있기 때문에 NullPointerException 발생!!
+    // 누군가 대신 의존성 주입을 해줘야 Client 코드를 건드리지 않고 DIP 원칙을 지킬 수 있다
+    // 누구?? -> 스프링 IOC 컨테이너 + DI 원칙
+    private DiscountPolicy discountPolicy;
 
     /**
      * @param memberId : 회원 번호
