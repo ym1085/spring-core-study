@@ -3,11 +3,8 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
-
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     /* 기존 Client 소스를 변경 하여야 한다 */
 //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
@@ -17,7 +14,13 @@ public class OrderServiceImpl implements OrderService {
     // 의존관계 역전 법칙 적용, 의존성 주입을 안해주고 있기 때문에 NullPointerException 발생!!
     // 누군가 대신 의존성 주입을 해줘야 Client 코드를 건드리지 않고 DIP 원칙을 지킬 수 있다
     // 누구?? -> 스프링 IOC 컨테이너 + DI 원칙
-    private DiscountPolicy discountPolicy;
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     /**
      * @param memberId : 회원 번호
