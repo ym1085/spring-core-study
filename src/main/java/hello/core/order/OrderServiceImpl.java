@@ -39,4 +39,9 @@ public class OrderServiceImpl implements OrderService {
         // 회원 정보를 그대로 반환 해준다, DB는 사용하지 않음
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
+
+    //싱글톤 컨테이너 테스트용
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }
