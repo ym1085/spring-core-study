@@ -8,6 +8,7 @@ class OrderServiceImplTest {
 
     @Test
     void createOrder() throws Exception {
+//        OrderServiceImpl orderService = new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
         OrderServiceImpl orderService = new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
         orderService.createOrder(1L, "itemA", 10000);
     }

@@ -7,38 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    /* 기존 Client 소스를 변경 하여야 한다 */
-//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
-//    TODO: 03. 관심사의 분리 내용 진행
-//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // 이 부분이 문제임, DIP 원칙 위배
-
-    // 의존관계 역전 법칙 적용, 의존성 주입을 안해주고 있기 때문에 NullPointerException 발생!!
-    // 누군가 대신 의존성 주입을 해줘야 Client 코드를 건드리지 않고 DIP 원칙을 지킬 수 있다
-    // 누구?? -> 스프링 IOC 컨테이너 + DI 원칙
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-//    private MemberRepository memberRepository;
-//    private DiscountPolicy discountPolicy;
-
-//    @Autowired private MemberRepository memberRepository;
-//    @Autowired private DiscountPolicy discountPolicy;
-
-    /*@Autowired
-    public void setMemberRepository(MemberRepository memberRepository) {
-        System.out.println("memberRepository = " + memberRepository);
-        this.memberRepository = memberRepository;
-    }
-
-    @Autowired
-    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
-        System.out.println("discountPolicy = " + discountPolicy);
-        this.discountPolicy = discountPolicy;
-    }*/
-
-//     생성자가 하나인 경우에는, @Autowired를 생략할 수 있다, 두개인 경우에는 생략이 불가능
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
