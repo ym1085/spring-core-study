@@ -4,7 +4,6 @@ import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,19 +13,8 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    /*@Autowired
-    private DiscountPolicy rateDiscountPolicy;*/
-
-    // 일반 생성자 의존 관계 주입
-    /*@Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy rateDiscountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = rateDiscountPolicy;
-    }*/
-
-    // @Qualifier 사용 : 필드명의 이름을 변경하지 않고도 의존 관꼐 주입이 가능하다
     @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
