@@ -11,7 +11,8 @@ public class BeanLifeCycleTest {
     @Test
     void lifeCycleTest() throws Exception {
         //given
-        ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class); // close를 위해서 ConfigurableApplicationContext 사용
+        // close를 위해서  ConfigurableApplicationContext 사용
+        ConfigurableApplicationContext ac = new AnnotationConfigApplicationContext(LifeCycleConfig.class);
         NetworkClient client = ac.getBean("networkClient", NetworkClient.class);
         ac.close();
         //when
