@@ -2,11 +2,13 @@ package hello.core.scope;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,8 +38,7 @@ public class SingletonWithPrototypeTest1 {
     @Test
     @DisplayName("싱글톤 스코프 빈 안에 있는 프로토타입 스코프 빈 호출하여 카운트 증가 테스트")
     void singletonClientUsePrototype() throws Exception {
-        AnnotationConfigApplicationContext ac =
-                new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ClientBean.class, PrototypeBean.class);
         /**
             remind
             - 싱글톤 스코프는 싱글톤 객체 즉, 동일한 객체를 반환함
@@ -49,19 +50,27 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+//        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 
     /* 싱글톤 스코프 빈 */
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean; // 생성 시점에 이미 의존 관계 주입이 되어 있다
+
+        @Autowired
+//        private ObjectProvider<PrototypeBean> prototypeBeanProvider;  // 대신 DL을 수행
+        private Provider<PrototypeBean> prototypeBeanProvider;  // 대신 DL을 수행
+
+        /*private final PrototypeBean prototypeBean; // 생성 시점에 이미 의존 관계 주입이 되어 있다
 
         public ClientBean(PrototypeBean prototypeBean) {
             this.prototypeBean = prototypeBean;
-        }
+        }*/
 
         public int logic() {
+//            PrototypeBean prototypeBean = prototypeBeanProvider.getObject(); // ObjectProvider or ObjectFactory
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }

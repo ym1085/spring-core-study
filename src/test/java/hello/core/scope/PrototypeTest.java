@@ -22,6 +22,7 @@ public class PrototypeTest {
     void prototypeBeanFind() throws Exception {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(PrototypeBean.class);
 
+        // 프로토타입 스코프 빈은 컨테이너에서 빈을 '조회'할때 빈이 생성되고, 초기화 메서드가 실행됨
         System.out.println("find prototypeBean1");
         PrototypeBean prototypeBean1 = ac.getBean(PrototypeBean.class);
 
